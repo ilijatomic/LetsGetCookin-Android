@@ -13,7 +13,7 @@ import io.realm.Realm;
  */
 public class DBHelper {
 
-    private static final int DEFAULT_OFFSET_THRESHOLD = 8;
+    private static final int DEFAULT_OFFSET_THRESHOLD = 50;
 
     private static DBHelper instance;
 
@@ -40,13 +40,15 @@ public class DBHelper {
         for (int startOffset = offset * DEFAULT_OFFSET_THRESHOLD; startOffset < endOffset; startOffset++) {
             if (startOffset < this.recipes.size()) {
                 recipes.add(startOffset, this.recipes.get(startOffset));
+            } else {
+                return false;
             }
         }
         return true;
     }
 
-    public List<Ingredient> getIngredients() {
-        return Realm.getDefaultInstance().where(Ingredient.class).findAll();
+    public boolean checkIngredients() {
+        return Realm.getDefaultInstance().where(Ingredient.class).findFirst() != null;
     }
 
     public void insertTags(List<Tag> tags) {
@@ -68,7 +70,7 @@ public class DBHelper {
     public void insertRecipes(List<Recipe> recipes) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(recipes);
+        realm.copyToRealm(recipes);
         realm.commitTransaction();
         realm.close();
     }

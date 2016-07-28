@@ -9,7 +9,6 @@ import io.realm.annotations.PrimaryKey;
  */
 public class Recipe extends RealmObject {
 
-    @PrimaryKey
     private String id;
     private String title;
     private String image_file_name;
