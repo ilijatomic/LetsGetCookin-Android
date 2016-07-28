@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Lets Get Cookin</string>
+
+    <string name="no_internet_dialog_title">No internet connection</string>
+    <string name="no_internet_dialog_message">We need internet connection for first lunch in order to download all those delicious recipes for you :)</string>
+    <string name="ok_button">OK</string>
+    <string name="try_again_button">Try again</string>
+</resources>
