@@ -3,7 +3,17 @@
 
     <string name="no_internet_dialog_title">No internet connection</string>
     <string name="no_internet_dialog_message">We need internet connection for first lunch in order to download all those delicious recipes for you :)</string>
-    <string name="ok_button">OK</string>
+    <string name="add_to_shopping_list_dialog_title">Shopping list</string>
+    <string name="add_to_shopping_list_dialog_message">Would you like to add ingredients from this recipe to your shopping cart?</string>
+    <string name="ok_button">Ok</string>
     <string name="try_again_button">Try again</string>
     <string name="shopping_cart">Shopping cart</string>
+    <string name="recipe">Recipe</string>
+    <string name="difficulty">"Difficulty: "</string>
+    <string name="time">"Time: "</string>
+    <string name="likes">"Likes: "</string>
+    <string name="serving_size">"Serving size: "</string>
+    <string name="utensils">"Need: "</string>
+    <string name="ingredient">Ingredient:</string>
+    <string name="no_button">No</string>
 </resources>

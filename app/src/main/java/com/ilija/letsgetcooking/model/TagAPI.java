@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * JSON model for tags call
- *
+ * <p/>
  * Created by Ilija on 7/27/2016.
  */
 public class TagAPI {

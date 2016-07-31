@@ -2,14 +2,13 @@ package com.ilija.letsgetcooking.model;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by ilija.tomic on 7/27/2016.
  */
 public class Recipe extends RealmObject {
 
-    private String id;
+    private int id;
     private String title;
     private String image_file_name;
     private String image_size;
@@ -22,13 +21,13 @@ public class Recipe extends RealmObject {
 
     private RealmList<Step> steps;
     private RealmList<RecipeTag> tags;
-    private RealmList<RecipeIngredient> ingredientRecipes;
+    private RealmList<RecipeIngredient> ingredients;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -120,11 +119,11 @@ public class Recipe extends RealmObject {
         this.tags = tags;
     }
 
-    public RealmList<RecipeIngredient> getIngredientRecipes() {
-        return ingredientRecipes;
+    public RealmList<RecipeIngredient> getIngredients() {
+        return ingredients;
     }
 
-    public void setIngredientRecipes(RealmList<RecipeIngredient> ingredientRecipes) {
-        this.ingredientRecipes = ingredientRecipes;
+    public void setIngredients(RealmList<RecipeIngredient> ingredients) {
+        this.ingredients = ingredients;
     }
 }

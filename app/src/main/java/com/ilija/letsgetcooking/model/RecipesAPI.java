@@ -4,7 +4,7 @@ import java.util.List;
 
 /**
  * JSON model for get recipes call
- *
+ * <p/>
  * Created by ilija.tomic on 7/27/2016.
  */
 public class RecipesAPI {

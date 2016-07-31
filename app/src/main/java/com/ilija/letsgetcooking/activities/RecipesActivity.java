@@ -2,6 +2,7 @@ package com.ilija.letsgetcooking.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.google.gson.Gson;
@@ -32,12 +34,13 @@ import java.util.List;
 
 /**
  * Lazy loading recipes, storing or updating to database
- *
+ * <p/>
  * Created by ilija.tomic on 7/27/2016.
  */
 public class RecipesActivity extends AppCompatActivity implements RESTCall.DownloadListener {
 
     private static final String TAG = RecipesActivity.class.getSimpleName();
+    private static final int DEFAULT_OFFSET_VALUE = 50;
 
     private int offset = 0;
     private boolean loading = true;
@@ -55,7 +58,7 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
         setSupportActionBar(toolbar);
 
         lvRecipes = (ListView) findViewById(R.id.recipes_lv);
-        footer = ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.list_view_footer_progress, null, false);
+        footer = ((LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE)).inflate(R.layout.list_footer_progress, null, false);
         lvRecipes.addFooterView(footer);
 
         recipesListAdapter = new RecipesListAdapter(this, recipes);
@@ -75,9 +78,8 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
                         loading = true;
                         offset += 1;
                         if (NetworkUtils.checkInternetConnection(getApplicationContext())) {
-                            loadRecipesFromInternet(String.valueOf(offset));
+                            loadRecipesFromInternet(String.valueOf(offset * DEFAULT_OFFSET_VALUE));
                         } else {
-                            DBHelper.getInstance().loadRecipes();
                             populateRecipes();
                         }
                     }
@@ -85,9 +87,18 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
             }
         });
 
+        lvRecipes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d(TAG, recipes.get(position).getTitle());
+                Intent intent = new Intent(getApplicationContext(), RecipeDetailsActivity.class);
+                intent.putExtra(Constants.RECIPE_DETAILS_EXTRA, recipes.get(position).getId());
+                startActivity(intent);
+            }
+        });
+
         checkInternetOrDatabaseExist();
     }
-
 
 
     @Override
@@ -98,13 +109,12 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_shopping) {
+            Intent intent = new Intent(getApplicationContext(), ShoppingListActivity.class);
+            intent.putExtra(Constants.RECIPE_DETAILS_EXTRA, -1);
+            startActivity(intent);
             return true;
         }
 
@@ -126,7 +136,7 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
                 loadTagsFromInternet();
             }
 
-            loadRecipesFromInternet(String.valueOf(offset));
+            loadRecipesFromInternet(String.valueOf(offset * DEFAULT_OFFSET_VALUE));
         } else {
             if (!DBHelper.getInstance().checkRecipe()) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -143,7 +153,6 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
                 AlertDialog dialog = builder.create();
                 dialog.show();
             } else {
-                DBHelper.getInstance().loadRecipes();
                 populateRecipes();
             }
         }
@@ -152,6 +161,7 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
     /**
      * Get recipes form REST api with given offset
      * (Executed in background thread)
+     *
      * @param offset offset for lazy loading
      */
     private void loadRecipesFromInternet(String offset) {
@@ -180,8 +190,8 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
     /**
      * Once download is complete, parsing input stream from http connection
      *
-     * @param inputStream   content from http call
-     * @param type          REST type
+     * @param inputStream content from http call
+     * @param type        REST type
      */
     @Override
     public void downloadComplete(InputStream inputStream, RESTCall.RestType type) {
@@ -197,10 +207,9 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
                 // Getting recipes from input stream and saving into database
                 RecipesAPI recipesAPI = gson.fromJson(new InputStreamReader(inputStream), RecipesAPI.class);
                 DBHelper.getInstance().insertRecipes(recipesAPI.getRecipes());
-                this.runOnUiThread(new Runnable() {
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        DBHelper.getInstance().loadRecipes();
                         populateRecipes();
                     }
                 });
@@ -210,6 +219,7 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
                 TagAPI tagAPI = gson.fromJson(new InputStreamReader(inputStream), TagAPI.class);
                 DBHelper.getInstance().insertTags(tagAPI.getTag_categories());
                 break;
+            case ERROR:
             default:
                 break;
 
@@ -222,6 +232,7 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
      * and removing loading spinner
      */
     private void populateRecipes() {
+        DBHelper.getInstance().loadRecipes();
         if (!DBHelper.getInstance().addRecipes(recipes, offset)) {
             lvRecipes.removeFooterView(footer);
         } else {

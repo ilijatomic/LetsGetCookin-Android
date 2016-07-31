@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,9 +13,10 @@ import com.ilija.letsgetcooking.model.Recipe;
 import com.ilija.letsgetcooking.utils.ImageUtils;
 
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
+ * Adapter for list view of recipes
+ * <p/>
  * Created by ilija.tomic on 7/27/2016.
  */
 public class RecipesListAdapter extends ArrayAdapter<Recipe> {

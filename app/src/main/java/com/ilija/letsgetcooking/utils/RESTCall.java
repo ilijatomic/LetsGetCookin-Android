@@ -1,6 +1,5 @@
 package com.ilija.letsgetcooking.utils;
 
-import android.app.Activity;
 import android.util.Log;
 
 import java.io.InputStream;
@@ -14,7 +13,7 @@ public class RESTCall extends Thread {
 
     private static final String TAG = RESTCall.class.getSimpleName();
 
-    public enum RestType {RECIPE, INGREDIENT, TAG}
+    public enum RestType {RECIPE, INGREDIENT, TAG, ERROR}
 
     private String httpUrl;
     private RestType restType;
@@ -33,18 +32,18 @@ public class RESTCall extends Thread {
         try {
             URL url = new URL(httpUrl);
             connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("Accept-Language","en-US,en;q=0.8");
+            connection.setRequestProperty("Accept-Language", "en-US,en;q=0.8");
             connection.connect();
             if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                listener.downloadComplete(null, null);
-                Log.d(TAG, "" + connection.getResponseCode());
+                listener.downloadComplete(null, RestType.ERROR);
+                Log.d(TAG, String.valueOf(connection.getResponseCode()));
                 return;
             }
             listener.downloadComplete(connection.getInputStream(), restType);
         } catch (Exception e) {
-            Log.e(TAG, "Network communication error");
-            listener.downloadComplete(null, null);
-        }finally {
+            Log.e(TAG, "Network communication error: " + e.getMessage());
+            listener.downloadComplete(null, RestType.ERROR);
+        } finally {
             if (connection != null) {
                 connection.disconnect();
             }

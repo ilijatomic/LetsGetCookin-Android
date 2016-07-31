@@ -27,7 +27,7 @@ public class AppObject extends Application {
         Picasso.setSingletonInstance(picasso);
 
         // Configuring realm database
-        RealmConfiguration realmConfig = new RealmConfiguration.Builder(getApplicationContext()).build();
+        RealmConfiguration realmConfig = new RealmConfiguration.Builder(getApplicationContext()).deleteRealmIfMigrationNeeded().build();
         Realm.setDefaultConfiguration(realmConfig);
 
     }
