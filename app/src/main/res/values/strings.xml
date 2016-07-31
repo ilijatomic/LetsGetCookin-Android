@@ -16,4 +16,6 @@
     <string name="utensils">"Need: "</string>
     <string name="ingredient">Ingredient:</string>
     <string name="no_button">No</string>
+    <string name="search">Search</string>
+    <string name="search_recipes">Search recipes</string>
 </resources>

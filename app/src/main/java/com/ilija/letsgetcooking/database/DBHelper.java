@@ -129,4 +129,8 @@ public class DBHelper {
     public List<ShoppingCart> getShoppingCart() {
         return Realm.getDefaultInstance().where(ShoppingCart.class).findAll();
     }
+
+    public List<Tag> getTags() {
+        return Realm.getDefaultInstance().where(Tag.class).findAll();
+    }
 }

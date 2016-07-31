@@ -1,4 +1,4 @@
-package com.ilija.letsgetcooking.activities;
+package com.ilija.letsgetcooking.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,22 +7,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ListView;
 
 import com.ilija.letsgetcooking.R;
-import com.ilija.letsgetcooking.activities.adapter.IngredientListAdapter;
-import com.ilija.letsgetcooking.activities.adapter.ShoppingListAdapter;
+import com.ilija.letsgetcooking.ui.adapter.ShoppingListAdapter;
 import com.ilija.letsgetcooking.database.DBHelper;
 import com.ilija.letsgetcooking.model.Recipe;
-import com.ilija.letsgetcooking.model.RecipeIngredient;
 import com.ilija.letsgetcooking.model.ShoppingCart;
 import com.ilija.letsgetcooking.utils.Constants;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import io.realm.Realm;
 
 /**
  * Created by ilija.tomic on 7/27/2016.

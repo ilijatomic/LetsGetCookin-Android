@@ -1,4 +1,4 @@
-package com.ilija.letsgetcooking.activities.adapter;
+package com.ilija.letsgetcooking.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,20 +8,21 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.ilija.letsgetcooking.R;
-import com.ilija.letsgetcooking.model.ShoppingCart;
+import com.ilija.letsgetcooking.database.DBHelper;
+import com.ilija.letsgetcooking.model.RecipeIngredient;
 
 import java.util.List;
 
 /**
- * Created by Ilija on 7/31/2016.
+ * Created by ilija.tomic on 7/27/2016.
  */
-public class ShoppingListAdapter extends ArrayAdapter<ShoppingCart> {
+public class IngredientListAdapter extends ArrayAdapter<RecipeIngredient> {
 
     private Context context;
-    private List<ShoppingCart> ingredients;
+    private List<RecipeIngredient> ingredients;
     private LayoutInflater inflater;
 
-    public ShoppingListAdapter(Context context, List<ShoppingCart> objects) {
+    public IngredientListAdapter(Context context, List<RecipeIngredient> objects) {
         super(context, -1, objects);
         this.context = context;
         this.ingredients = objects;
@@ -30,20 +31,20 @@ public class ShoppingListAdapter extends ArrayAdapter<ShoppingCart> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = inflater.inflate(R.layout.list_view_recipe_ingredients, parent, false);
+        View view = inflater.inflate(R.layout.lv_item_recipe_ingredients, parent, false);
 
-        ShoppingCart shoppingCart = getItem(position);
+        RecipeIngredient recipeIngredient = getItem(position);
 
         TextView name = (TextView) view.findViewById(R.id.recipe_ingredient);
-        name.setText(shoppingCart.getIngredient());
+        name.setText(DBHelper.getInstance().getIngredientById(recipeIngredient.getId()).getName());
         TextView quantity = (TextView) view.findViewById(R.id.recipe_ingredient_quantity);
-        quantity.setText(shoppingCart.getQuantity());
+        quantity.setText(recipeIngredient.getQuantity());
 
         return view;
     }
 
     @Override
-    public ShoppingCart getItem(int position) {
+    public RecipeIngredient getItem(int position) {
         return ingredients.get(position);
     }
 }

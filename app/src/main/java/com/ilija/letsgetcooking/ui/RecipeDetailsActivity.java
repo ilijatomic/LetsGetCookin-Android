@@ -1,12 +1,10 @@
-package com.ilija.letsgetcooking.activities;
+package com.ilija.letsgetcooking.ui;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -18,11 +16,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ilija.letsgetcooking.R;
-import com.ilija.letsgetcooking.activities.adapter.IngredientListAdapter;
+import com.ilija.letsgetcooking.ui.adapter.IngredientListAdapter;
 import com.ilija.letsgetcooking.database.DBHelper;
 import com.ilija.letsgetcooking.model.Recipe;
 import com.ilija.letsgetcooking.model.RecipeIngredient;
-import com.ilija.letsgetcooking.model.ShoppingCart;
 import com.ilija.letsgetcooking.model.Step;
 import com.ilija.letsgetcooking.utils.Constants;
 import com.squareup.picasso.Picasso;

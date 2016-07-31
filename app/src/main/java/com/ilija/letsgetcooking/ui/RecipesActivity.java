@@ -1,9 +1,11 @@
-package com.ilija.letsgetcooking.activities;
+package com.ilija.letsgetcooking.ui;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -17,12 +19,13 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.ilija.letsgetcooking.R;
-import com.ilija.letsgetcooking.activities.adapter.RecipesListAdapter;
 import com.ilija.letsgetcooking.database.DBHelper;
 import com.ilija.letsgetcooking.model.IngredientAPI;
 import com.ilija.letsgetcooking.model.Recipe;
 import com.ilija.letsgetcooking.model.RecipesAPI;
 import com.ilija.letsgetcooking.model.TagAPI;
+import com.ilija.letsgetcooking.ui.adapter.RecipesListAdapter;
+import com.ilija.letsgetcooking.ui.dialog.SearchTagDialog;
 import com.ilija.letsgetcooking.utils.Constants;
 import com.ilija.letsgetcooking.utils.NetworkUtils;
 import com.ilija.letsgetcooking.utils.RESTCall;
@@ -98,13 +101,27 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
         });
 
         checkInternetOrDatabaseExist();
+
+        FloatingActionButton actionButton = (FloatingActionButton) findViewById(R.id.search_fab);
+        assert actionButton != null;
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Search button pressed!");
+                showSearchDialog();
+            }
+        });
     }
 
+    private void showSearchDialog() {
+        DialogFragment searchDialog = new SearchTagDialog();
+        searchDialog.show(getSupportFragmentManager(), "SearchTagDialog");
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

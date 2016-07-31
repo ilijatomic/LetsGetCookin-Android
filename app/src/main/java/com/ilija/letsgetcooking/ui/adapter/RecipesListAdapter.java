@@ -1,4 +1,4 @@
-package com.ilija.letsgetcooking.activities.adapter;
+package com.ilija.letsgetcooking.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -37,7 +37,7 @@ public class RecipesListAdapter extends ArrayAdapter<Recipe> {
 
         Recipe recipe = getItem(position);
 
-        View view = inflater.inflate(R.layout.list_view_item_recipies, parent, false);
+        View view = inflater.inflate(R.layout.lv_item_recipies, parent, false);
         ImageView imageView = (ImageView) view.findViewById(R.id.recipe_image);
         ImageUtils.loadImage(context, imageView, recipe.getImage_file_name());
         TextView tvName = (TextView) view.findViewById(R.id.recipe_name);

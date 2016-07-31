@@ -1,4 +1,4 @@
-package com.ilija.letsgetcooking.activities;
+package com.ilija.letsgetcooking.utils;
 
 import android.app.Application;
 
