@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Dialog for presenting available tags
+ * and putting selected tag into map latter used for search
+ *
  * Created by Ilija on 7/31/2016.
  */
 public class SearchTagDialog extends DialogFragment {
@@ -45,13 +48,14 @@ public class SearchTagDialog extends DialogFragment {
         builder.setPositiveButton(getString(R.string.search), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                searchListener.search();
+                searchListener.search(false);
                 getDialog().dismiss();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                searchListener.search(true);
                 getDialog().dismiss();
             }
         });
@@ -70,6 +74,6 @@ public class SearchTagDialog extends DialogFragment {
 
     public interface InnerTagSelectListener {
         void onSelect(InnerTag tag);
-        void search();
+        void search(boolean clear);
     }
 }

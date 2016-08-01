@@ -80,6 +80,7 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                // This is where lazy loading logic is calculated and executed
                 if (!loading) {
                     if ((firstVisibleItem + visibleItemCount) == totalItemCount) {
                         Log.d(TAG, "Load next set of recipes");
@@ -118,6 +119,9 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
         });
     }
 
+    /**
+     * Showing search dialog for user to select tags
+     */
     private void showSearchDialog() {
         DialogFragment searchDialog = new SearchTagDialog();
         searchDialog.show(getSupportFragmentManager(), "SearchTagDialog");
@@ -249,7 +253,7 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
     }
 
     /**
-     * Populating recipes from database with current offset
+     * Populating recipes from database with current offset and search tags if any is selected
      * When end of database is reached, stopping with populating recipes
      * and removing loading spinner
      */
@@ -263,10 +267,16 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
         }
     }
 
+    /**
+     * When user selects tag, putting it into map used for search
+     *
+     * @param innerTag tag for searching recipe
+     */
     @Override
     public void onSelect(InnerTag innerTag) {
         Tag tag = DBHelper.getInstance().getTagByInnerTagId(innerTag.getId());
         Log.d(TAG, "Tag selected: " + tag.getName() + "; Inner tag: " + innerTag.getName());
+        // Checking is user selected tag or empty value
         if (innerTag.getName().isEmpty() && searchTags.containsKey(tag.getId())) {
             searchTags.remove(tag.getId());
         } else if (!innerTag.getName().isEmpty()) {
@@ -274,10 +284,19 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
         }
     }
 
+    /**
+     * Performing search
+     *
+     * @param clear cancel button is pressed then clearing search map
+     */
     @Override
-    public void search() {
-        offset = 0;
-        recipes.clear();
-        populateRecipes();
+    public void search(boolean clear) {
+        if (!clear) {
+            offset = 0;
+            recipes.clear();
+            populateRecipes();
+        } else {
+            searchTags.clear();
+        }
     }
 }

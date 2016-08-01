@@ -14,6 +14,8 @@ import com.ilija.letsgetcooking.model.ShoppingCart;
 import java.util.List;
 
 /**
+ * Adapter for ListView of shopping cart
+ *
  * Created by Ilija on 7/31/2016.
  */
 public class ShoppingListAdapter extends ArrayAdapter<ShoppingCart> {

@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Dialog for manually adding ingredients
+ *
  * Created by ilija.tomic on 8/1/2016.
  */
 public class AddIngredientDialog extends DialogFragment {
@@ -54,7 +56,7 @@ public class AddIngredientDialog extends DialogFragment {
         builder.setPositiveButton(getString(R.string.add), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (ingredient != null)
+                if (ingredient != null && ingredient.getName().equals(autoCompleteTextView.getText().toString()))
                     addListener.add(ingredient);
                 getDialog().dismiss();
             }
@@ -74,7 +76,7 @@ public class AddIngredientDialog extends DialogFragment {
         try {
             addListener = (AddListener) activity;
         } catch (ClassCastException e) {
-            Log.d(SearchTagDialog.class.getSimpleName(), e.getMessage());
+            Log.d(AddIngredientDialog.class.getSimpleName(), e.getMessage());
         }
     }
 

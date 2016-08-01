@@ -17,6 +17,8 @@ import com.ilija.letsgetcooking.ui.dialog.SearchTagDialog;
 import java.util.List;
 
 /**
+ * Adapter for tag ListView used for search
+ *
  * Created by Ilija on 7/31/2016.
  */
 public class TagListAdapter extends ArrayAdapter<Tag> {

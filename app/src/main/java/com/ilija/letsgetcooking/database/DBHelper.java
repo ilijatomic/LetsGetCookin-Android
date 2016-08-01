@@ -18,6 +18,8 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 
 /**
+ * Singleton for database management
+ *
  * Created by ilija.tomic on 7/27/2016.
  */
 public class DBHelper {
@@ -42,6 +44,15 @@ public class DBHelper {
         recipesResult = Realm.getDefaultInstance().where(Recipe.class).findAll();
     }
 
+    /**
+     * Adding recipes from database to list view with given offset
+     * If map is not empty, using it for tag search
+     *
+     * @param recipes       list of recipes for displaying in ListView
+     * @param offset        search offset
+     * @param searchTags    map of tag ids used for search
+     * @return false if end of list of recipes in database, otherwise true
+     */
     public boolean addRecipes(List<Recipe> recipes, int offset, Map<Integer, Integer> searchTags) {
 
         for (Integer integerId : searchTags.values()) {
@@ -72,6 +83,9 @@ public class DBHelper {
         addEmptyInnerTag();
     }
 
+    /**
+     * Adding empty inner tag for easy spinner represent
+     */
     public void addEmptyInnerTag() {
         Realm realm = Realm.getDefaultInstance();
         List<Tag> tags = getTags();

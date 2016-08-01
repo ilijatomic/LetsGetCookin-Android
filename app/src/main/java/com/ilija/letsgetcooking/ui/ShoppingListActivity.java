@@ -30,6 +30,8 @@ import com.ilija.letsgetcooking.utils.Constants;
 import java.util.List;
 
 /**
+ * Present shopping list of ingredient
+ *
  * Created by ilija.tomic on 7/27/2016.
  */
 public class ShoppingListActivity extends AppCompatActivity implements AddIngredientDialog.AddListener {
@@ -71,6 +73,9 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
         });
     }
 
+    /**
+     * Showing dialog for user to select ingredient
+     */
     private void showAddDialog() {
         DialogFragment addDialog = new AddIngredientDialog();
         addDialog.show(getSupportFragmentManager(), "AddIngredientDialog");
@@ -94,10 +99,14 @@ public class ShoppingListActivity extends AppCompatActivity implements AddIngred
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Adding new ingredient to users shopping cart
+     * @param ingredient new ingredient
+     */
     @Override
     public void add(Ingredient ingredient) {
         DBHelper.getInstance().addIngredientsToShoppingCart(ingredient);
         shoppingCarts = DBHelper.getInstance().getShoppingCart();
-        lvIngredients.setAdapter(shoppingListAdapter);
+        shoppingListAdapter.notifyDataSetChanged();
     }
 }

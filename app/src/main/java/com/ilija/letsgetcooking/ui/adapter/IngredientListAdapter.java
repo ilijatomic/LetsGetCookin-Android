@@ -14,6 +14,8 @@ import com.ilija.letsgetcooking.model.RecipeIngredient;
 import java.util.List;
 
 /**
+ * Adapter for ListView of ingredient for recipe
+ *
  * Created by ilija.tomic on 7/27/2016.
  */
 public class IngredientListAdapter extends ArrayAdapter<RecipeIngredient> {

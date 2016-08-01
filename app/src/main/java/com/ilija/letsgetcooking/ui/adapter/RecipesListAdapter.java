@@ -15,8 +15,8 @@ import com.ilija.letsgetcooking.utils.ImageUtils;
 import java.util.List;
 
 /**
- * Adapter for list view of recipes
- * <p/>
+ * Adapter for ListView of recipes
+ *
  * Created by ilija.tomic on 7/27/2016.
  */
 public class RecipesListAdapter extends ArrayAdapter<Recipe> {

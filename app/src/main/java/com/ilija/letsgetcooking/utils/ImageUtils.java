@@ -7,7 +7,7 @@ import com.squareup.picasso.Picasso;
 
 /**
  * Loading and caching images of recipe
- * <p/>
+ *
  * Created by ilija.tomic on 7/27/2016.
  */
 public class ImageUtils {

@@ -78,6 +78,7 @@ public class RecipeDetailsActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if (id == R.id.action_shopping) {
+            // When selecting shopping cart in toolbar, asking user if he wants to add ingredient form current recipe
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.add_to_shopping_list_dialog_title);
             builder.setMessage(R.string.add_to_shopping_list_dialog_message);

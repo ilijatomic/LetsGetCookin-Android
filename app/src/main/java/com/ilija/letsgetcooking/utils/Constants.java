@@ -2,7 +2,7 @@ package com.ilija.letsgetcooking.utils;
 
 /**
  * Constants used throw app
- * <p/>
+ *
  * Created by ilija.tomic on 7/27/2016.
  */
 public class Constants {

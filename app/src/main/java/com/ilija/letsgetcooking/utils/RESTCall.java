@@ -7,6 +7,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
+ * Executing REST call in background thread,
+ * and returning InputStream as a result through listener
+ *
  * Created by Ilija on 7/27/2016.
  */
 public class RESTCall extends Thread {
@@ -27,7 +30,6 @@ public class RESTCall extends Thread {
 
     @Override
     public void run() {
-
         HttpURLConnection connection = null;
         try {
             URL url = new URL(httpUrl);
