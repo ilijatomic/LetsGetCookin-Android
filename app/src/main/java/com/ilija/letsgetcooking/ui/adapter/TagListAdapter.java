@@ -49,7 +49,6 @@ public class TagListAdapter extends ArrayAdapter<Tag> {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 InnerTag innerTag = tag.getTags().get(position);
-                Tag test = innerTag.getTag();
                 innerTagSelectListener.onSelect(innerTag);
             }
 

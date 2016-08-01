@@ -1,6 +1,7 @@
 package com.ilija.letsgetcooking.ui.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,14 +31,17 @@ public class ShoppingListAdapter extends ArrayAdapter<ShoppingCart> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = inflater.inflate(R.layout.lv_item_recipe_ingredients, parent, false);
+        View view = inflater.inflate(R.layout.lv_item_shopping_cart, parent, false);
 
         ShoppingCart shoppingCart = getItem(position);
+        Log.d("Shopping cart", "Ingredient: " + shoppingCart.getIngredient());
+        String sName = shoppingCart.getIngredient();
+        String sQuantity = shoppingCart.getQuantity();
 
-        TextView name = (TextView) view.findViewById(R.id.recipe_ingredient);
-        name.setText(shoppingCart.getIngredient());
-        TextView quantity = (TextView) view.findViewById(R.id.recipe_ingredient_quantity);
-        quantity.setText(shoppingCart.getQuantity());
+        TextView name = (TextView) view.findViewById(R.id.shopping_ingredient);
+        name.setText(sName);
+        TextView quantity = (TextView) view.findViewById(R.id.shopping_ingredient_quantity);
+        quantity.setText(sQuantity);
 
         return view;
     }

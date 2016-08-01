@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -41,6 +42,19 @@ public class SearchTagDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.search_recipes);
         builder.setView(dialogView);
+        builder.setPositiveButton(getString(R.string.search), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                searchListener.search();
+                getDialog().dismiss();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                getDialog().dismiss();
+            }
+        });
         return builder.create();
     }
 
@@ -56,5 +70,6 @@ public class SearchTagDialog extends DialogFragment {
 
     public interface InnerTagSelectListener {
         void onSelect(InnerTag tag);
+        void search();
     }
 }

@@ -9,6 +9,7 @@ import com.ilija.letsgetcooking.model.ShoppingCart;
 import com.ilija.letsgetcooking.model.Tag;
 
 import java.util.List;
+import java.util.Map;
 
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -56,13 +57,27 @@ public class DBHelper {
     }
 
     public void insertTags(List<Tag> tags) {
-        for (Tag temp : tags) {
-            temp.getTags().add(0, new InnerTag());
-        }
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(tags);
         realm.commitTransaction();
+        realm.close();
+        addEmptyInnerTag();
+    }
+
+    public void addEmptyInnerTag() {
+        Realm realm = Realm.getDefaultInstance();
+        List<Tag> tags = getTags();
+        for (Tag temp : tags) {
+            realm.beginTransaction();
+            InnerTag innerTag = new InnerTag();
+            int id = realm.where(InnerTag.class).max("id").intValue() + 1;
+            innerTag.setId(id);
+            innerTag.setName("");
+            realm.copyToRealm(innerTag);
+            temp.getTags().add(0, innerTag);
+            realm.commitTransaction();
+        }
         realm.close();
     }
 
@@ -133,5 +148,21 @@ public class DBHelper {
 
     public List<Tag> getTags() {
         return Realm.getDefaultInstance().where(Tag.class).findAll();
+    }
+
+    public Tag getTagByInnerTagId(int id) {
+        return Realm.getDefaultInstance().where(Tag.class).equalTo("tags.id", id).findFirst();
+    }
+
+    public void getRecipeByTags(Map<Integer, Integer> searchTags, List<Recipe> recipes) {
+        recipes.clear();
+        for (Integer integerId : searchTags.values()) {
+            List<Recipe> tempRecipes = Realm.getDefaultInstance().where(Recipe.class).equalTo("tags.id", integerId).findAll();
+            for (Recipe temp : tempRecipes) {
+                if (!recipes.contains(temp)) {
+                    recipes.add(temp);
+                }
+            }
+        }
     }
 }

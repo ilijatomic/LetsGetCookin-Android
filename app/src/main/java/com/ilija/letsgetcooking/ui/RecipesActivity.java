@@ -24,6 +24,7 @@ import com.ilija.letsgetcooking.model.IngredientAPI;
 import com.ilija.letsgetcooking.model.InnerTag;
 import com.ilija.letsgetcooking.model.Recipe;
 import com.ilija.letsgetcooking.model.RecipesAPI;
+import com.ilija.letsgetcooking.model.Tag;
 import com.ilija.letsgetcooking.model.TagAPI;
 import com.ilija.letsgetcooking.ui.adapter.RecipesListAdapter;
 import com.ilija.letsgetcooking.ui.dialog.SearchTagDialog;
@@ -55,7 +56,7 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
     private View footer;
     private RecipesListAdapter recipesListAdapter;
     private List<Recipe> recipes = new ArrayList<>();
-    private Map<Integer, String> searchTags = new HashMap<>();
+    private Map<Integer, Integer> searchTags = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -263,6 +264,26 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
     }
 
     @Override
-    public void onSelect(InnerTag tag) {
+    public void onSelect(InnerTag innerTag) {
+        Tag tag = DBHelper.getInstance().getTagByInnerTagId(innerTag.getId());
+        Log.d(TAG, "Tag selected: " + tag.getName() + "; Inner tag: " + innerTag.getName());
+        if (innerTag.getName().isEmpty() && searchTags.containsKey(tag.getId())) {
+            searchTags.remove(tag.getId());
+        } else if (!innerTag.getName().isEmpty()) {
+            searchTags.put(tag.getId(), innerTag.getId());
+        }
+    }
+
+    @Override
+    public void search() {
+        if (searchTags.size() > 0) {
+            recipes.clear();
+            DBHelper.getInstance().getRecipeByTags(searchTags, recipes);
+            recipesListAdapter.notifyDataSetChanged();
+        } else {
+            offset = 0;
+            recipes.clear();
+            populateRecipes();
+        }
     }
 }
