@@ -22,9 +22,7 @@ public class DBHelper {
 
     private static DBHelper instance;
 
-
     private List<Recipe> recipes;
-    private List<ShoppingCart> shoppingCart;
 
     public static DBHelper getInstance() {
         if (instance == null)
@@ -58,6 +56,9 @@ public class DBHelper {
     }
 
     public void insertTags(List<Tag> tags) {
+        for (Tag temp : tags) {
+            temp.getTags().add(0, new InnerTag());
+        }
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(tags);

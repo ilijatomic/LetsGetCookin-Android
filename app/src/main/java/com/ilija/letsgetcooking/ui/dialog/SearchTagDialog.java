@@ -26,9 +26,8 @@ import java.util.List;
  */
 public class SearchTagDialog extends DialogFragment {
 
-    private SearchListener searchListener;
+    private InnerTagSelectListener searchListener;
     private ListView lvTags;
-    private List<InnerTag> innerTags = new ArrayList<>();
     private TagListAdapter tagListAdapter;
 
     @NonNull
@@ -37,7 +36,7 @@ public class SearchTagDialog extends DialogFragment {
         LayoutInflater layoutInflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View dialogView = layoutInflater.inflate(R.layout.dialog_search_tag, null, false);
         lvTags = (ListView) dialogView.findViewById(R.id.tag_lv);
-        tagListAdapter = new TagListAdapter(getActivity(), DBHelper.getInstance().getTags());
+        tagListAdapter = new TagListAdapter(getActivity(), DBHelper.getInstance().getTags(), searchListener);
         lvTags.setAdapter(tagListAdapter);
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle(R.string.search_recipes);
@@ -49,17 +48,13 @@ public class SearchTagDialog extends DialogFragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         try {
-            searchListener = (SearchListener) activity;
+            searchListener = (InnerTagSelectListener) activity;
         } catch (ClassCastException e) {
             Log.d(SearchTagDialog.class.getSimpleName(), e.getMessage());
         }
     }
 
-    public interface SearchListener {
-        void search(List<InnerTag> innerTags);
-    }
-
-    public interface TagSelectListener {
-        void onSelect(Tag tag);
+    public interface InnerTagSelectListener {
+        void onSelect(InnerTag tag);
     }
 }

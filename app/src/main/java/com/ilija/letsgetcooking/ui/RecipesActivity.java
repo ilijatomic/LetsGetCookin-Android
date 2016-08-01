@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.ilija.letsgetcooking.R;
 import com.ilija.letsgetcooking.database.DBHelper;
 import com.ilija.letsgetcooking.model.IngredientAPI;
+import com.ilija.letsgetcooking.model.InnerTag;
 import com.ilija.letsgetcooking.model.Recipe;
 import com.ilija.letsgetcooking.model.RecipesAPI;
 import com.ilija.letsgetcooking.model.TagAPI;
@@ -33,14 +34,16 @@ import com.ilija.letsgetcooking.utils.RESTCall;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Lazy loading recipes, storing or updating to database
- * <p/>
+ *
  * Created by ilija.tomic on 7/27/2016.
  */
-public class RecipesActivity extends AppCompatActivity implements RESTCall.DownloadListener {
+public class RecipesActivity extends AppCompatActivity implements RESTCall.DownloadListener, SearchTagDialog.InnerTagSelectListener {
 
     private static final String TAG = RecipesActivity.class.getSimpleName();
     private static final int DEFAULT_OFFSET_VALUE = 50;
@@ -52,6 +55,7 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
     private View footer;
     private RecipesListAdapter recipesListAdapter;
     private List<Recipe> recipes = new ArrayList<>();
+    private Map<Integer, String> searchTags = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,5 +260,9 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
             recipesListAdapter.notifyDataSetChanged();
             loading = false;
         }
+    }
+
+    @Override
+    public void onSelect(InnerTag tag) {
     }
 }

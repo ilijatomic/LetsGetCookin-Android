@@ -11,6 +11,7 @@ public class InnerTag extends RealmObject {
     @PrimaryKey
     private int id;
     private String name;
+    private Tag tag;
 
     public int getId() {
         return id;
@@ -26,6 +27,14 @@ public class InnerTag extends RealmObject {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Tag getTag() {
+        return tag;
+    }
+
+    public void setTag(Tag tag) {
+        this.tag = tag;
     }
 
     @Override
