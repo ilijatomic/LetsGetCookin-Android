@@ -255,7 +255,7 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
      */
     private void populateRecipes() {
         DBHelper.getInstance().loadRecipes();
-        if (!DBHelper.getInstance().addRecipes(recipes, offset)) {
+        if (!DBHelper.getInstance().addRecipes(recipes, offset, searchTags)) {
             lvRecipes.removeFooterView(footer);
         } else {
             recipesListAdapter.notifyDataSetChanged();
@@ -276,14 +276,8 @@ public class RecipesActivity extends AppCompatActivity implements RESTCall.Downl
 
     @Override
     public void search() {
-        if (searchTags.size() > 0) {
-            recipes.clear();
-            DBHelper.getInstance().getRecipeByTags(searchTags, recipes);
-            recipesListAdapter.notifyDataSetChanged();
-        } else {
-            offset = 0;
-            recipes.clear();
-            populateRecipes();
-        }
+        offset = 0;
+        recipes.clear();
+        populateRecipes();
     }
 }

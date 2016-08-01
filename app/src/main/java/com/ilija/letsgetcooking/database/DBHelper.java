@@ -40,7 +40,11 @@ public class DBHelper {
         recipesResult = Realm.getDefaultInstance().where(Recipe.class).findAll();
     }
 
-    public boolean addRecipes(List<Recipe> recipes, int offset) {
+    public boolean addRecipes(List<Recipe> recipes, int offset, Map<Integer, Integer> searchTags) {
+
+        for (Integer integerId : searchTags.values()) {
+            recipesResult = recipesResult.where().equalTo("tags.id", integerId).findAll();
+        }
 
         int endOffset = (offset + 1) * DEFAULT_OFFSET_THRESHOLD;
         for (int startOffset = offset * DEFAULT_OFFSET_THRESHOLD; startOffset < endOffset; startOffset++) {
@@ -153,17 +157,5 @@ public class DBHelper {
 
     public Tag getTagByInnerTagId(int id) {
         return Realm.getDefaultInstance().where(Tag.class).equalTo("tags.id", id).findFirst();
-    }
-
-    public void getRecipeByTags(Map<Integer, Integer> searchTags, List<Recipe> recipes) {
-        recipes.clear();
-        loadRecipes();
-        for (Integer integerId : searchTags.values()) {
-            recipesResult = recipesResult.where().equalTo("tags.id", integerId).findAll();
-        }
-
-        for (Recipe temp : recipesResult) {
-            recipes.add(temp);
-        }
     }
 }
