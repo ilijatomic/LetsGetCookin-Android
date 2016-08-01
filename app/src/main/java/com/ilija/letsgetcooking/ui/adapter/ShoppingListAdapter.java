@@ -34,14 +34,10 @@ public class ShoppingListAdapter extends ArrayAdapter<ShoppingCart> {
         View view = inflater.inflate(R.layout.lv_item_shopping_cart, parent, false);
 
         ShoppingCart shoppingCart = getItem(position);
-        Log.d("Shopping cart", "Ingredient: " + shoppingCart.getIngredient());
-        String sName = shoppingCart.getIngredient();
-        String sQuantity = shoppingCart.getQuantity();
-
         TextView name = (TextView) view.findViewById(R.id.shopping_ingredient);
-        name.setText(sName);
+        name.setText(shoppingCart.getIngredient());
         TextView quantity = (TextView) view.findViewById(R.id.shopping_ingredient_quantity);
-        quantity.setText(sQuantity);
+        quantity.setText(shoppingCart.getQuantity());
 
         return view;
     }

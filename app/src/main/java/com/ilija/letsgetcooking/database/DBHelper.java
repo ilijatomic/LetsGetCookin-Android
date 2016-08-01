@@ -13,6 +13,7 @@ import java.util.Map;
 
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmResults;
 
 /**
  * Created by ilija.tomic on 7/27/2016.
@@ -23,7 +24,7 @@ public class DBHelper {
 
     private static DBHelper instance;
 
-    private List<Recipe> recipes;
+    private RealmResults<Recipe> recipesResult;
 
     public static DBHelper getInstance() {
         if (instance == null)
@@ -36,15 +37,15 @@ public class DBHelper {
     }
 
     public void loadRecipes() {
-        recipes = Realm.getDefaultInstance().where(Recipe.class).findAll();
+        recipesResult = Realm.getDefaultInstance().where(Recipe.class).findAll();
     }
 
     public boolean addRecipes(List<Recipe> recipes, int offset) {
 
         int endOffset = (offset + 1) * DEFAULT_OFFSET_THRESHOLD;
         for (int startOffset = offset * DEFAULT_OFFSET_THRESHOLD; startOffset < endOffset; startOffset++) {
-            if (startOffset < this.recipes.size()) {
-                recipes.add(startOffset, this.recipes.get(startOffset));
+            if (startOffset < this.recipesResult.size()) {
+                recipes.add(startOffset, this.recipesResult.get(startOffset));
             } else {
                 return false;
             }
@@ -156,13 +157,13 @@ public class DBHelper {
 
     public void getRecipeByTags(Map<Integer, Integer> searchTags, List<Recipe> recipes) {
         recipes.clear();
+        loadRecipes();
         for (Integer integerId : searchTags.values()) {
-            List<Recipe> tempRecipes = Realm.getDefaultInstance().where(Recipe.class).equalTo("tags.id", integerId).findAll();
-            for (Recipe temp : tempRecipes) {
-                if (!recipes.contains(temp)) {
-                    recipes.add(temp);
-                }
-            }
+            recipesResult = recipesResult.where().equalTo("tags.id", integerId).findAll();
+        }
+
+        for (Recipe temp : recipesResult) {
+            recipes.add(temp);
         }
     }
 }
