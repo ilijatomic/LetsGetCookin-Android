@@ -42,7 +42,7 @@ public class TagListAdapter extends ArrayAdapter<Tag> {
         TextView name = (TextView) view.findViewById(R.id.tag_name);
         name.setText(tag.getName());
         Spinner innerName = (Spinner) view.findViewById(R.id.tag_spinner);
-        ArrayAdapter<InnerTag> innerTagArrayAdapter = new ArrayAdapter<InnerTag>(context, android.R.layout.simple_spinner_item, tag.getTags());
+        ArrayAdapter<InnerTag> innerTagArrayAdapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, tag.getTags());
         innerTagArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         innerName.setAdapter(innerTagArrayAdapter);
         innerName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

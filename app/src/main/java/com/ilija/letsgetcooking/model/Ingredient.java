@@ -36,4 +36,9 @@ public class Ingredient extends RealmObject {
     public void setQuantity_type(String quantity_type) {
         this.quantity_type = quantity_type;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

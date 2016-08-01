@@ -1,19 +1,30 @@
 package com.ilija.letsgetcooking.ui;
 
+import android.app.SearchManager;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
 import com.ilija.letsgetcooking.R;
+import com.ilija.letsgetcooking.model.Ingredient;
 import com.ilija.letsgetcooking.ui.adapter.ShoppingListAdapter;
 import com.ilija.letsgetcooking.database.DBHelper;
 import com.ilija.letsgetcooking.model.Recipe;
 import com.ilija.letsgetcooking.model.ShoppingCart;
+import com.ilija.letsgetcooking.ui.dialog.AddIngredientDialog;
+import com.ilija.letsgetcooking.ui.dialog.SearchTagDialog;
 import com.ilija.letsgetcooking.utils.Constants;
 
 import java.util.List;
@@ -21,7 +32,7 @@ import java.util.List;
 /**
  * Created by ilija.tomic on 7/27/2016.
  */
-public class ShoppingListActivity extends AppCompatActivity {
+public class ShoppingListActivity extends AppCompatActivity implements AddIngredientDialog.AddListener {
 
     private Recipe recipe;
     private ListView lvIngredients;
@@ -49,6 +60,20 @@ public class ShoppingListActivity extends AppCompatActivity {
         shoppingCarts = DBHelper.getInstance().getShoppingCart();
         shoppingListAdapter = new ShoppingListAdapter(this, shoppingCarts);
         lvIngredients.setAdapter(shoppingListAdapter);
+
+        FloatingActionButton actionButton = (FloatingActionButton) findViewById(R.id.add_ingredient__fab);
+        assert actionButton != null;
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAddDialog();
+            }
+        });
+    }
+
+    private void showAddDialog() {
+        DialogFragment addDialog = new AddIngredientDialog();
+        addDialog.show(getSupportFragmentManager(), "AddIngredientDialog");
     }
 
     @Override
@@ -67,5 +92,12 @@ public class ShoppingListActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void add(Ingredient ingredient) {
+        DBHelper.getInstance().addIngredientsToShoppingCart(ingredient);
+        shoppingCarts = DBHelper.getInstance().getShoppingCart();
+        lvIngredients.setAdapter(shoppingListAdapter);
     }
 }

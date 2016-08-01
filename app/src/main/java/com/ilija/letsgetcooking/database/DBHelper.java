@@ -1,5 +1,7 @@
 package com.ilija.letsgetcooking.database;
 
+import android.text.Editable;
+
 import com.ilija.letsgetcooking.model.Ingredient;
 import com.ilija.letsgetcooking.model.InnerTag;
 import com.ilija.letsgetcooking.model.Recipe;
@@ -137,12 +139,11 @@ public class DBHelper {
         realm.close();
     }
 
-    public void addIngredientsToShoppingCart(RecipeIngredient ingredient) {
+    public void addIngredientsToShoppingCart(Ingredient ingredient) {
         Realm realm = Realm.getDefaultInstance();
         realm.beginTransaction();
         ShoppingCart shoppingCart = realm.createObject(ShoppingCart.class);
         shoppingCart.setIngredient(getIngredientById(ingredient.getId()).getName());
-        shoppingCart.setQuantity(ingredient.getQuantity());
         realm.commitTransaction();
         realm.close();
     }
@@ -157,5 +158,17 @@ public class DBHelper {
 
     public Tag getTagByInnerTagId(int id) {
         return Realm.getDefaultInstance().where(Tag.class).equalTo("tags.id", id).findFirst();
+    }
+
+    public void getIngredients(List<String> sIngredients) {
+        List<Ingredient> ingredients = Realm.getDefaultInstance().where(Ingredient.class).findAll();
+
+        for (Ingredient temp : ingredients) {
+            sIngredients.add(temp.getName());
+        }
+    }
+
+    public Ingredient getIngredientByName(String name) {
+        return Realm.getDefaultInstance().where(Ingredient.class).equalTo("name", name).findFirst();
     }
 }
